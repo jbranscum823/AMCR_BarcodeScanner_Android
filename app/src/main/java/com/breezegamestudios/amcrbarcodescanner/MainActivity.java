@@ -1,5 +1,7 @@
 package com.breezegamestudios.amcrbarcodescanner;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import java.util.List;
@@ -22,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         // Only fetch all items
         getAllItems();
         getItemById(352);
+        // Create an Intent to switch to BarcodeScannerActivity
+        Intent intent = new Intent(MainActivity.this, BarcodeScannerActivity.class);
+        startActivity(intent);
     }
 
     private void getAllItems() {

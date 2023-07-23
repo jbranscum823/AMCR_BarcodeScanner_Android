@@ -12,6 +12,9 @@ public interface ItemService {
     @GET("Item/{id}")
     Call<Item> getItemById(@Path("id") int id);
 
+    @GET("Item/ByBarcode/{barcode}")
+    Call<Item> getItemByBarcode(@Path("barcode") String barcode);
+
     @POST("Item")
     Call<Void> addItem(@Body Item item);
 
