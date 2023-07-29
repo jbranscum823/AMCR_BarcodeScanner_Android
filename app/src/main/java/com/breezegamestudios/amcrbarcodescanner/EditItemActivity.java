@@ -1,6 +1,7 @@
 package com.breezegamestudios.amcrbarcodescanner;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditItemActivity extends AppCompatActivity {
+
+    //location variables from item
+    private int locationId;
+    private int sectionId;
+    private int subsectionId;
+    String sectionName = null;
+    String subsectionName = null;
 
     private TextView textViewBarcodeValue;
     private TextView textViewNameValue;
@@ -48,9 +56,17 @@ public class EditItemActivity extends AppCompatActivity {
         itemCall.enqueue(new Callback<Item>() {
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {
+                Log.d("Item Call: ",itemCall.toString());
                 if (response.isSuccessful()) {
                     Item item = response.body();
                     if (item != null) {
+
+                        //set location variables from item data
+                        locationId = item.getLocationId();
+                        sectionId = item.getSectionId();
+                        subsectionId = item.getSubsectionId();
+
+
                         // Populate the fields with the item data
                         textViewBarcodeValue.setText(item.getBarcode());
                         textViewNameValue.setText(item.getName());
@@ -60,13 +76,79 @@ public class EditItemActivity extends AppCompatActivity {
                         textViewRepairOrderNumberValue.setText(item.getRepairOrderNumber());
                         // Populate other views for the remaining fields
 
-                        // For Location, Section, and Subsection, you may need to make additional API calls
-                        // to get the actual names of the corresponding entities based on their IDs
-                        // For example:
-                        // textViewLocationValue.setText("Location Name");
+                        //Location call to get location information
+                        // Fetch Location data from API based on the barcode
+                        LocationService locationService = ApiClient.getRetrofit().create(LocationService.class);
+                        Call<Location> locationCall = locationService.getLocationById(locationId);
+                        locationCall.enqueue(new Callback<Location>() {
+                            @Override
+                            public void onResponse(Call<Location> call, Response<Location> locationResponse) {
+                                int responseCode = locationResponse.code();
+                                Log.d("Location Response Code: ", String.valueOf(responseCode));
+                                String locationApiUrl = ApiClient.getRetrofit().baseUrl() + "Location/" + locationId;
+                                Log.d("Location API URL: ", locationCall.toString());
 
-                        // Note: You can add additional logic here to handle missing or null data
-                        // and display appropriate default values or error messages.
+                                if (locationResponse.isSuccessful()) {
+                                    Location location = locationResponse.body();
+                                    if (location != null) {
+                                        // Set the Location name in the TextView
+                                        //textViewLocation.setText("Location: " + location.getName());
+                                        Log.d("Location Name: ",location.toString());
+                                        // Fetch Section data based on the retrieved Location's sectionId
+
+                                        // Iterate through the Sections to find the one with the matching sectionId
+                                        for (Section section : location.getSections()) {
+                                            if (section.getId() == sectionId) {
+                                                sectionName = section.getName();
+                                                break;
+                                            }
+                                        }
+
+                                        // If the Section is found, find the Subsection with the matching subsectionId
+                                        if (sectionName != null) {
+                                            for (Section section : location.getSections()) {
+                                                if (section.getId() == sectionId) {
+                                                    // Iterate through the subsections to find the one with the matching subsectionId
+                                                    for (Subsection subsection : section.getSubsections()) {
+                                                        if (subsection.getId() == subsectionId) {
+                                                            subsectionName = subsection.getName();
+                                                            break;
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        // Now you have the Section name and Subsection name based on the item's sectionId and subsectionId
+                                        if (sectionName != null && subsectionName != null) {
+                                            Log.d("Section Name: ", sectionName);
+                                            Log.d("Subsection Name: ", subsectionName);
+                                        } else {
+                                            Log.d("Section or Subsection not found.", "");
+                                        }
+
+                                    } else {
+                                        Log.d("Location: Not Found","");
+                                        Log.d("Section: Not Found","");
+                                        Log.d("Subsection: Not Found","");
+                                    }
+                                } else {
+                                    // Handle unsuccessful response for Location
+                                    //locationTextView.setText("Location: Error");
+                                    //sectionTextView.setText("Section: Error");
+                                    //subsectionTextView.setText("Subsection: Error");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Location> call, Throwable t) {
+                                // Handle failure to fetch Location data
+                                //locationTextView.setText("Location: Error");
+                                //sectionTextView.setText("Section: Error");
+                                //subsectionTextView.setText("Subsection: Error");
+                            }
+                        });
                     }
                 } else {
                     // Handle API call failure here (e.g., show an error message)
