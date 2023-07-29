@@ -14,6 +14,9 @@ public class EditItemActivity extends AppCompatActivity {
     private TextView textViewBarcodeValue;
     private TextView textViewNameValue;
     private TextView textViewDescriptionValue;
+    private TextView textViewPartNumberValue;
+    private TextView textViewSerialNumberValue;
+    private TextView textViewRepairOrderNumberValue;
     private TextView textViewLocationValue;
     private TextView textViewSectionValue;
     private TextView textViewSubsectionValue;
@@ -28,6 +31,9 @@ public class EditItemActivity extends AppCompatActivity {
         textViewBarcodeValue = findViewById(R.id.textViewBarcodeValue);
         textViewNameValue = findViewById(R.id.textViewNameValue);
         textViewDescriptionValue = findViewById(R.id.textViewDescriptionValue);
+        textViewPartNumberValue = findViewById(R.id.textViewPartNumberValue);
+        textViewSerialNumberValue = findViewById(R.id.textViewSerialNumberValue);
+        textViewRepairOrderNumberValue = findViewById(R.id.textViewRepairOrderNumberValue);
         //textViewLocationValue = findViewById(R.id.textViewLocationValue);
         //textViewSectionValue = findViewById(R.id.textViewSectionValue);
         //textViewSubsectionValue = findViewById(R.id.textViewSubsectionValue);
@@ -49,6 +55,9 @@ public class EditItemActivity extends AppCompatActivity {
                         textViewBarcodeValue.setText(item.getBarcode());
                         textViewNameValue.setText(item.getName());
                         textViewDescriptionValue.setText(item.getDescription());
+                        textViewPartNumberValue.setText(item.getPartNumber());
+                        textViewSerialNumberValue.setText(item.getSerialNumber());
+                        textViewRepairOrderNumberValue.setText(item.getRepairOrderNumber());
                         // Populate other views for the remaining fields
 
                         // For Location, Section, and Subsection, you may need to make additional API calls

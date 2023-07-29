@@ -25,7 +25,7 @@
             android:id="@+id/textViewBarcodeValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Placeholder for Barcode Value"
+            android:text=""
             android:textSize="16sp"/>
 
         <!-- Name (Display only) -->
@@ -41,7 +41,7 @@
             android:id="@+id/textViewNameValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Placeholder for Name Value"
+            android:text=""
             android:textSize="16sp"/>
 
         <!-- Description (Display only) -->
@@ -57,7 +57,7 @@
             android:id="@+id/textViewDescriptionValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Placeholder for Description Value"
+            android:text=""
             android:textSize="16sp"/>
 
 
@@ -75,7 +75,7 @@
             android:id="@+id/textViewPartNumberValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Placeholder for Part Number Value"
+            android:text=""
             android:textSize="16sp"/>
 
         <!-- Serial Number (Display only) -->
@@ -91,7 +91,7 @@
             android:id="@+id/textViewSerialNumberValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Placeholder for Serial Number Value"
+            android:text=""
             android:textSize="16sp"/>
 
         <!-- Repair Order Number (Editable) -->
@@ -103,11 +103,12 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <EditText
-            android:id="@+id/editTextRepairOrderNumber"
+        <TextView
+            android:id="@+id/textViewRepairOrderNumberValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"/>
+            android:text=""
+            android:textSize="16sp"/>
 
         <!-- Parent Item (Editable with Spinner) -->
         <TextView
