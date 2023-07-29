@@ -1,5 +1,6 @@
 package com.breezegamestudios.amcrbarcodescanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -58,13 +59,16 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         Log.d("BarcodeScannerActivity", "Item by Barcode: " + item);
                         Toast.makeText(BarcodeScannerActivity.this, "Item: " + item, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the item data here
+                        Intent intent = new Intent(BarcodeScannerActivity.this, EditItemActivity.class);
+                        // Pass any data you need to the EditItemActivity using extras (optional)
+                        intent.putExtra("barcode", barcode);
+                        startActivity(intent);
                     } else {
                         // No matching item found, proceed to Step 2: Search for Location
                         searchLocationByBarcode(barcode);
                     }
                 } else {
-                    Log.e("BarcodeScannerActivity", "Failed to fetch item by barcode: " + response.message());
-                    // Step 1 failed, proceed to Step 2: Search for Location
+                    Log.d("BarcodeScannerActivity", "Item not found for barcode: " + barcode);                    // Step 1 failed, proceed to Step 2: Search for Location
                     searchLocationByBarcode(barcode);
                 }
             }
@@ -97,7 +101,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         searchSectionByBarcode(barcode);
                     }
                 } else {
-                    Log.e("BarcodeScannerActivity", "Failed to fetch location by barcode: " + response.message());
+                    Log.d("BarcodeScannerActivity", "Location not found for barcode: " + barcode);                    // Step 2 failed, proceed to Step 3: Search for Section
                     // Step 2 failed, proceed to Step 3: Search for Section
                     searchSectionByBarcode(barcode);
                 }
@@ -131,7 +135,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         searchSubsectionByBarcode(barcode);
                     }
                 } else {
-                    Log.e("BarcodeScannerActivity", "Failed to fetch section by barcode: " + response.message());
+                    Log.d("BarcodeScannerActivity", "Section not found for barcode: " + barcode);                    // Step 3 failed, proceed to Step 4: Search for Subsection
                     // Step 3 failed, proceed to Step 4: Search for Subsection
                     searchSubsectionByBarcode(barcode);
                 }
@@ -165,7 +169,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         Log.d("BarcodeScannerActivity", "No matching subsection found for barcode: " + barcode);
                     }
                 } else {
-                    Log.e("BarcodeScannerActivity", "Failed to fetch subsection by barcode: " + response.message());
+                    Log.d("BarcodeScannerActivity", "Subsection not found for barcode: " + barcode);                    // Step 4 failed
                 }
 
                 // Final data found for barcode (even if subsection is not found)

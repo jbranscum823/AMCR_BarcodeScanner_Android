@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_edit_item.xml -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Barcode (Display only) -->
+        <TextView
+            android:id="@+id/textViewBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Barcode"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textViewBarcodeValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder for Barcode Value"
+            android:textSize="16sp"/>
+
+        <!-- Name (Display only) -->
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textViewNameValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder for Name Value"
+            android:textSize="16sp"/>
+
+        <!-- Description (Display only) -->
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textViewDescriptionValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder for Description Value"
+            android:textSize="16sp"/>
+
+
+
+        <!-- Part Number (Display only) -->
+        <TextView
+            android:id="@+id/textViewPartNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Part Number"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textViewPartNumberValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder for Part Number Value"
+            android:textSize="16sp"/>
+
+        <!-- Serial Number (Display only) -->
+        <TextView
+            android:id="@+id/textViewSerialNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Serial Number"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textViewSerialNumberValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder for Serial Number Value"
+            android:textSize="16sp"/>
+
+        <!-- Repair Order Number (Editable) -->
+        <TextView
+            android:id="@+id/textViewRepairOrderNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Repair Order Number"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/editTextRepairOrderNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+        <!-- Parent Item (Editable with Spinner) -->
+        <TextView
+            android:id="@+id/textViewParentItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Parent Item"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spinnerParentItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Customer (Display only) -->
+        <TextView
+            android:id="@+id/textViewCustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customer"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textViewCustomerValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder for Customer Value"
+            android:textSize="16sp"/>
+
+        <!-- Location (Displayed as "Location") -->
+        <TextView
+            android:id="@+id/textViewLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/spinnerLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Section (Displayed as "Section") -->
+        <TextView
+            android:id="@+id/textViewSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Section"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/spinnerSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Subsection (Displayed as "Subsection") -->
+        <TextView
+            android:id="@+id/textViewSubsection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Subsection"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <Spinner
+            android:id="@+id/spinnerSubsection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Changes"/>
+    </LinearLayout>
+</ScrollView>
+
+
+

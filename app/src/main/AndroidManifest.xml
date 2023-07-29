@@ -29,6 +29,15 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".EditItemActivity"
+            android:label="Edit Item"
+            android:parentActivityName=".BarcodeScannerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BarcodeScannerActivity" />
+        </activity>
+
     </application>
 
 </manifest>
