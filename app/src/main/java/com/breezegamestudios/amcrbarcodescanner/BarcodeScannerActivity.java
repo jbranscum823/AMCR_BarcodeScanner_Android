@@ -96,6 +96,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         Log.d("BarcodeScannerActivity", "Location by Barcode: " + location);
                         Toast.makeText(BarcodeScannerActivity.this, "Location: " + location, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the location data here
+
                     } else {
                         // No matching location found, proceed to Step 3: Search for Section
                         searchSectionByBarcode(barcode);

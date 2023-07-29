@@ -37,7 +37,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BarcodeScannerActivity" />
         </activity>
-
     </application>
 
 </manifest>
