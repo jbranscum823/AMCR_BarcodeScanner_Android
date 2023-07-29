@@ -137,7 +137,7 @@
             android:id="@+id/textViewCustomerValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Placeholder for Customer Value"
+            android:text=""
             android:textSize="16sp"/>
 
         <!-- Location (Displayed as "Location") -->

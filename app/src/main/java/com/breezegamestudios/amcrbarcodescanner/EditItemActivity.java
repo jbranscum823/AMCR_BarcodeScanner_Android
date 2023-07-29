@@ -28,6 +28,7 @@ public class EditItemActivity extends AppCompatActivity {
     private TextView textViewLocationValue;
     private TextView textViewSectionValue;
     private TextView textViewSubsectionValue;
+    private TextView textViewCustomerValue;
     // Add other views for the remaining fields
 
     @Override
@@ -45,6 +46,7 @@ public class EditItemActivity extends AppCompatActivity {
         textViewLocationValue = findViewById(R.id.textViewLocationValue);
         textViewSectionValue = findViewById(R.id.textViewSectionValue);
         textViewSubsectionValue = findViewById(R.id.textViewSubsectionValue);
+        textViewCustomerValue = findViewById(R.id.textViewCustomerValue);
         // Initialize other views for the remaining fields
 
         // Get the barcode from the Intent extras
@@ -66,7 +68,6 @@ public class EditItemActivity extends AppCompatActivity {
                         sectionId = item.getSectionId();
                         subsectionId = item.getSubsectionId();
 
-
                         // Populate the fields with the item data
                         textViewBarcodeValue.setText(item.getBarcode());
                         textViewNameValue.setText(item.getName());
@@ -76,6 +77,44 @@ public class EditItemActivity extends AppCompatActivity {
                         textViewRepairOrderNumberValue.setText(item.getRepairOrderNumber());
                         // Populate other views for the remaining fields
 
+                        //Location call to get location information
+                        // Fetch Customer data from API based on the item data
+                        if(item.getCustomerId() != null) {
+                            CustomerService customerService = ApiClient.getRetrofit().create(CustomerService.class);
+                            Call<Customer> customerCall = customerService.getCustomerById(item.getCustomerId());
+                            customerCall.enqueue(new Callback<Customer>() {
+                                @Override
+                                public void onResponse(Call<Customer> call, Response<Customer> customerResponse) {
+                                    int responseCode = customerResponse.code();
+                                    Log.d("Location Response Code: ", String.valueOf(responseCode));
+                                    Log.d("Location API URL: ", customerCall.toString());
+
+                                    if (customerResponse.isSuccessful()) {
+                                        Customer customer = customerResponse.body();
+                                        if (customer != null) {
+                                            textViewCustomerValue.setText(customer.companyName);
+                                            Log.d("Customer ID: ", customer.id.toString());
+                                            Log.d("Customer Name: ", customer.companyName);
+                                        } else {
+
+                                        }
+                                    } else {
+                                        // Handle unsuccessful response for Location
+                                        //locationTextView.setText("Location: Error");
+                                        //sectionTextView.setText("Section: Error");
+                                        //subsectionTextView.setText("Subsection: Error");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Customer> call, Throwable t) {
+                                    // Handle failure to fetch Location data
+                                    //locationTextView.setText("Location: Error");
+                                    //sectionTextView.setText("Section: Error");
+                                    //subsectionTextView.setText("Subsection: Error");
+                                }
+                            });
+                        }
                         //Location call to get location information
                         // Fetch Location data from API based on the barcode
                         LocationService locationService = ApiClient.getRetrofit().create(LocationService.class);
@@ -119,6 +158,7 @@ public class EditItemActivity extends AppCompatActivity {
                                                 }
                                             }
                                         }
+
                                         textViewLocationValue.setText(location.getName());
                                         textViewSectionValue.setText(sectionName);
                                         textViewSubsectionValue.setText(subsectionName);
