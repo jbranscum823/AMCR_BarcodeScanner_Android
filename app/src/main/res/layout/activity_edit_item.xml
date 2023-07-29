@@ -119,10 +119,12 @@
             android:textStyle="bold"
             android:textSize="18sp" />
 
-        <Spinner
-            android:id="@+id/spinnerParentItem"
+        <TextView
+            android:id="@+id/textViewParentItemValue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"/>
 
         <!-- Customer (Display only) -->
         <TextView
