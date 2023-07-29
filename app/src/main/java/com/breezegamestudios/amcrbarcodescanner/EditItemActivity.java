@@ -42,9 +42,9 @@ public class EditItemActivity extends AppCompatActivity {
         textViewPartNumberValue = findViewById(R.id.textViewPartNumberValue);
         textViewSerialNumberValue = findViewById(R.id.textViewSerialNumberValue);
         textViewRepairOrderNumberValue = findViewById(R.id.textViewRepairOrderNumberValue);
-        //textViewLocationValue = findViewById(R.id.textViewLocationValue);
-        //textViewSectionValue = findViewById(R.id.textViewSectionValue);
-        //textViewSubsectionValue = findViewById(R.id.textViewSubsectionValue);
+        textViewLocationValue = findViewById(R.id.textViewLocationValue);
+        textViewSectionValue = findViewById(R.id.textViewSectionValue);
+        textViewSubsectionValue = findViewById(R.id.textViewSubsectionValue);
         // Initialize other views for the remaining fields
 
         // Get the barcode from the Intent extras
@@ -119,7 +119,9 @@ public class EditItemActivity extends AppCompatActivity {
                                                 }
                                             }
                                         }
-
+                                        textViewLocationValue.setText(location.getName());
+                                        textViewSectionValue.setText(sectionName);
+                                        textViewSubsectionValue.setText(subsectionName);
                                         // Now you have the Section name and Subsection name based on the item's sectionId and subsectionId
                                         if (sectionName != null && subsectionName != null) {
                                             Log.d("Section Name: ", sectionName);

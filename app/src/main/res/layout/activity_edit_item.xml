@@ -149,10 +149,12 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <Spinner
-            android:id="@+id/spinnerLocation"
+        <TextView
+            android:id="@+id/textViewLocationValue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"/>
 
         <!-- Section (Displayed as "Section") -->
         <TextView
@@ -163,10 +165,12 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <Spinner
-            android:id="@+id/spinnerSection"
+        <TextView
+            android:id="@+id/textViewSectionValue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"/>
 
         <!-- Subsection (Displayed as "Subsection") -->
         <TextView
@@ -177,10 +181,12 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <Spinner
-            android:id="@+id/spinnerSubsection"
+        <TextView
+            android:id="@+id/textViewSubsectionValue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"/>
 
         <!-- Save Button -->
         <Button
