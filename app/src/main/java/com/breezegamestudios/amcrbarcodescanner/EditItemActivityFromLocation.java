@@ -10,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditItemActivity extends AppCompatActivity {
+public class EditItemActivityFromLocation extends AppCompatActivity {
 
     //location variables from item
     private int locationId;
@@ -52,7 +52,7 @@ public class EditItemActivity extends AppCompatActivity {
         // Initialize other views for the remaining fields
 
         // Get the barcode from the Intent extras
-        String barcode = getIntent().getStringExtra("BARCODE");
+        String barcode = getIntent().getStringExtra("ID");
 
         // Make the API call to get the item data by barcode
         ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);

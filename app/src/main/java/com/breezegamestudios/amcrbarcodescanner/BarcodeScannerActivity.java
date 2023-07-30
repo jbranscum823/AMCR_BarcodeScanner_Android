@@ -61,7 +61,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         // You can update your UI or perform any other actions with the item data here
                         Intent intent = new Intent(BarcodeScannerActivity.this, EditItemActivity.class);
                         // Pass any data you need to the EditItemActivity using extras (optional)
-                        intent.putExtra("barcode", barcode);
+                        intent.putExtra("BARCODE", barcode);
                         startActivity(intent);
                     } else {
                         // No matching item found, proceed to Step 2: Search for Location
@@ -96,6 +96,10 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         Log.d("BarcodeScannerActivity", "Location by Barcode: " + location);
                         Toast.makeText(BarcodeScannerActivity.this, "Location: " + location, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the location data here
+
+                        Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
+                        intent.putExtra("BARCODE", barcode);
+                        startActivity(intent);
 
                     } else {
                         // No matching location found, proceed to Step 3: Search for Section

@@ -37,6 +37,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BarcodeScannerActivity" />
         </activity>
+        <activity
+            android:name=".LocationItemsActivity"
+            android:label="Items in Location"
+            android:parentActivityName=".BarcodeScannerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BarcodeScannerActivity" />
+        </activity>
+        <activity
+            android:name=".EditItemActivityFromLocation"
+            android:label="Edit Item"
+            android:parentActivityName=".LocationItemsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LocationItemsActivity" />
+        </activity>
     </application>
 
 </manifest>
