@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,12 +24,42 @@ public class MainActivity extends AppCompatActivity {
 
         itemService = ApiClient.getRetrofit().create(ItemService.class);
 
-        // Only fetch all items
+
+        Button buttonBarcodeScanner = findViewById(R.id.buttonBarcodeScanner);
+        buttonBarcodeScanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start BarcodeScannerActivity
+                Intent intent = new Intent(MainActivity.this, BarcodeScannerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+/*        Button buttonItemLookup = findViewById(R.id.buttonItemLookup);
+        buttonItemLookup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start ItemLookupActivity
+                Intent intent = new Intent(MainActivity.this, ItemLookupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button buttonInspection = findViewById(R.id.buttonInspection);
+        buttonInspection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start InspectionActivity
+                Intent intent = new Intent(MainActivity.this, InspectionActivity.class);
+                startActivity(intent);
+            }
+        });*/
+/*        // Only fetch all items
         getAllItems();
         getItemById(352);
         // Create an Intent to switch to BarcodeScannerActivity
         Intent intent = new Intent(MainActivity.this, BarcodeScannerActivity.class);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 
     private void getAllItems() {

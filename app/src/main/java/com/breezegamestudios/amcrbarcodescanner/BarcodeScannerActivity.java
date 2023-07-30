@@ -3,8 +3,11 @@ package com.breezegamestudios.amcrbarcodescanner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +44,23 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                 searchItemByBarcode(barcode);
             }
         });
+
+        editTextBarcode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform your search operation
+                    buttonSearch.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+        // Set the EditText to be focused
+        editTextBarcode.requestFocus();
     }
 
     private void searchItemByBarcode(String barcode) {
@@ -188,9 +208,10 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                     } else {
                         // No matching subsection found
                         Log.d("BarcodeScannerActivity", "No matching subsection found for barcode: " + barcode);
+                        Toast.makeText(BarcodeScannerActivity.this, "No Matching Barcode in Database", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.d("BarcodeScannerActivity", "Subsection not found for barcode: " + barcode);                    // Step 4 failed
+                    Log.d("BarcodeScannerActivity", "Subsection not found for barcode: " + barcode);// Step 4 failed
                 }
 
                 // Final data found for barcode (even if subsection is not found)
