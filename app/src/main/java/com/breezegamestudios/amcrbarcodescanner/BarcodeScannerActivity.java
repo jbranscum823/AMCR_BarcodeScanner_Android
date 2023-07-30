@@ -99,6 +99,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
                         intent.putExtra("BARCODE", barcode);
+                        intent.putExtra("LOCATIONID", location.getId());
                         startActivity(intent);
 
                     } else {

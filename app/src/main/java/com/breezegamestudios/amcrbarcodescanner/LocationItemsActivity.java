@@ -1,6 +1,7 @@
 package com.breezegamestudios.amcrbarcodescanner;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,13 +21,24 @@ import retrofit2.Response;
 
 public class LocationItemsActivity extends AppCompatActivity {
 
+    private int locationId;
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_items);
 
         String barcode = getIntent().getStringExtra("BARCODE");
+        sharedPreferences = getSharedPreferences("LocationItemsActivity", MODE_PRIVATE);
+        locationId = getIntent().getIntExtra("LOCATIONID", -1);
 
+        // If locationId is not available in the intent, get it from shared preferences
+        if (locationId == -1) {
+            locationId = sharedPreferences.getInt("LOCATIONID", -1);
+        }
+
+        Log.d("LocationId: ", String.valueOf(locationId));
         // Fetch the items for this location/section/subsection
         // This will depend on how your API is set up
         ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);;
@@ -35,12 +50,17 @@ public class LocationItemsActivity extends AppCompatActivity {
                 Log.d("BarcodeScannerActivity", "Response code for item search: " + response.code());
                 if (response.isSuccessful()) {
                     List<Item> items = response.body();
-                    Log.d("Items Found: ", items.toString());
+                    List<Item> filteredItems = items.stream()
+                            .filter(item -> (locationId == item.getLocationId()))
+                            .collect(Collectors.toList());
 
+
+                    Log.d("Items Found: ", items.toString());
+                    Log.d("Filtered Items: " , filteredItems.toString());
                     // Display the items in the RecyclerView
                     RecyclerView recyclerView = findViewById(R.id.recycler_view_location_items);
                     recyclerView.setLayoutManager(new LinearLayoutManager(LocationItemsActivity.this));
-                    ItemAdapter adapter = new ItemAdapter(items);
+                    ItemAdapter adapter = new ItemAdapter(filteredItems);
                     recyclerView.setAdapter(adapter);
 
                     // Set an item click listener on the adapter
@@ -64,5 +84,15 @@ public class LocationItemsActivity extends AppCompatActivity {
                 Log.e("BarcodeScannerActivity", "Error searching item: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Save the locationId in shared preferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("LOCATIONID", locationId);
+        editor.apply();
     }
 }
