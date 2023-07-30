@@ -42,6 +42,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String barcode = editTextBarcode.getText().toString();
                 searchItemByBarcode(barcode);
+                editTextBarcode.setText(""); // Clear the text field
             }
         });
 
