@@ -1,20 +1,51 @@
 package com.breezegamestudios.amcrbarcodescanner;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
     private List<Item> items;
+    private List<Item> filteredItems; // Filtered items
+
     private OnItemClickListener listener;
 
     public ItemAdapter(List<Item> items) {
         this.items = items;
+        this.filteredItems = new ArrayList<>(items); // Initialize filteredItems here
+    }
+
+    public void filter(String text) {
+        filteredItems.clear();
+        if(text.isEmpty()){
+            filteredItems.addAll(items);
+        } else{
+            text = text.toLowerCase();
+            for(Item item: items){
+                if((item.getName() != null && item.getName().toLowerCase().contains(text)) ||
+                        (item.getSerialNumber() != null && item.getSerialNumber().toLowerCase().contains(text)) ||
+                        (item.getPartNumber() != null && item.getPartNumber().toLowerCase().contains(text)) ||
+                        (item.getRepairOrderNumber() != null && item.getRepairOrderNumber().toLowerCase().contains(text))){
+                    filteredItems.add(item);
+                }
+            }
+
+        }
+        Log.d("ItemAdapter", "Filtered items: " + filteredItems); // Add this line
+        notifyDataSetChanged(); // Notify the adapter that the data set has changed
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+        this.filteredItems = new ArrayList<>(items);
     }
 
     @NonNull
@@ -27,13 +58,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        Item item = items.get(position);
+        Item item = filteredItems.get(position); // Use filteredItems here
         holder.bind(item, listener);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return filteredItems.size(); // Use filteredItems here
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -75,3 +106,4 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
     }
 }
+

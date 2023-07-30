@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,8 @@ public class LocationItemsActivity extends AppCompatActivity {
     private int sectionId;
     private int subsectionId;
     private SharedPreferences sharedPreferences;
+
+    private ItemAdapter adapter; // Declare adapter here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,28 @@ public class LocationItemsActivity extends AppCompatActivity {
         // Initialize the RecyclerView and set an empty adapter
         RecyclerView recyclerView = findViewById(R.id.recycler_view_location_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(LocationItemsActivity.this));
-        ItemAdapter adapter = new ItemAdapter(new ArrayList<>());
+        adapter = new ItemAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+
+        SearchView searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // User pressed the search button
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // User changed the text in the SearchView
+                // Filter your list here and update your adapter
+                Log.d("LocationItemsActivity", "Search text: " + newText); // Add this line
+                adapter.filter(newText);
+                return false;
+            }
+
+        });
+
 
         // Fetch the items for this location/section/subsection
         // This will depend on how your API is set up
@@ -88,8 +111,8 @@ public class LocationItemsActivity extends AppCompatActivity {
                     Log.d("Filtered Items: " , filteredItems.toString());
 
                     // Display the items in the RecyclerView
-                    ItemAdapter adapter = new ItemAdapter(filteredItems);
-                    recyclerView.setAdapter(adapter);
+                    adapter.setItems(filteredItems);
+                    adapter.notifyDataSetChanged();
 
 /*                    LocationService locationService = ApiClient.getRetrofit().create(LocationService.class);
                     Call<Location> locationCall = locationService.getLocationById(locationId);

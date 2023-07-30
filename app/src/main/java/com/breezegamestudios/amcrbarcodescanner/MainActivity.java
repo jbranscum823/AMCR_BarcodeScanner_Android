@@ -35,25 +35,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-/*        Button buttonItemLookup = findViewById(R.id.buttonItemLookup);
-        buttonItemLookup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start ItemLookupActivity
-                Intent intent = new Intent(MainActivity.this, ItemLookupActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button buttonInspection = findViewById(R.id.buttonInspection);
-        buttonInspection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start InspectionActivity
-                Intent intent = new Intent(MainActivity.this, InspectionActivity.class);
-                startActivity(intent);
-            }
-        });*/
 /*        // Only fetch all items
         getAllItems();
         getItemById(352);

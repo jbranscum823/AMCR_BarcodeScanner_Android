@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
-            android:label="Scan Barcode"
+            android:label=""
             android:parentActivityName=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -31,7 +31,7 @@
         </activity>
         <activity
             android:name=".BarcodeScannerActivity"
-            android:label="Edit Item"
+            android:label="Scan Barcode"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
