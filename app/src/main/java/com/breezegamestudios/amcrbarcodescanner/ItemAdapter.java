@@ -47,14 +47,23 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView itemName;
+        TextView itemSerialNumber;
+        TextView itemPartNumber;
+        TextView itemRepairOrderNumber;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.textViewName);
+            itemSerialNumber = itemView.findViewById(R.id.textViewSerialNumber);
+            itemPartNumber = itemView.findViewById(R.id.textViewPartNumber);
+            itemRepairOrderNumber = itemView.findViewById(R.id.textViewRepairOrderNumber);
         }
 
         public void bind(final Item item, final OnItemClickListener listener) {
             itemName.setText(item.getName());
+            itemSerialNumber.setText("SN: " + item.getSerialNumber());
+            itemPartNumber.setText("PN: "+ item.getPartNumber());
+            itemRepairOrderNumber.setText("RO: " + item.getRepairOrderNumber());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

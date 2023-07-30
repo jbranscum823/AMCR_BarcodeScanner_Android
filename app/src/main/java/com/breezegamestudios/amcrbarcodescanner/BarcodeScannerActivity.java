@@ -100,6 +100,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
                         intent.putExtra("BARCODE", barcode);
                         intent.putExtra("LOCATIONID", location.getId());
+                        intent.putExtra("ORIGIN", "BarcodeScannerActivity"); // Add this line
                         startActivity(intent);
 
                     } else {
@@ -136,6 +137,13 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         Log.d("BarcodeScannerActivity", "Section by Barcode: " + section);
                         Toast.makeText(BarcodeScannerActivity.this, "Section: " + section, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the section data here
+
+                        Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
+                        intent.putExtra("BARCODE", barcode);
+                        intent.putExtra("SECTIONID", section.getId());
+                        intent.putExtra("ORIGIN", "BarcodeScannerActivity"); // Add this line
+                        startActivity(intent);
+
                     } else {
                         // No matching section found, proceed to Step 4: Search for Subsection
                         searchSubsectionByBarcode(barcode);
@@ -170,6 +178,13 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         Log.d("BarcodeScannerActivity", "Subsection by Barcode: " + subsection);
                         Toast.makeText(BarcodeScannerActivity.this, "Subsection: " + subsection, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the subsection data here
+
+                        Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
+                        intent.putExtra("BARCODE", barcode);
+                        intent.putExtra("SUBSECTIONID", subsection.getId());
+                        intent.putExtra("ORIGIN", "BarcodeScannerActivity"); // Add this line
+                        startActivity(intent);
+
                     } else {
                         // No matching subsection found
                         Log.d("BarcodeScannerActivity", "No matching subsection found for barcode: " + barcode);

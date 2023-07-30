@@ -22,6 +22,8 @@ import retrofit2.Response;
 public class LocationItemsActivity extends AppCompatActivity {
 
     private int locationId;
+    private int sectionId;
+    private int subsectionId;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -30,15 +32,38 @@ public class LocationItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_location_items);
 
         String barcode = getIntent().getStringExtra("BARCODE");
+        String origin = getIntent().getStringExtra("ORIGIN");
         sharedPreferences = getSharedPreferences("LocationItemsActivity", MODE_PRIVATE);
         locationId = getIntent().getIntExtra("LOCATIONID", -1);
-
+        sectionId = getIntent().getIntExtra("SECTIONID", -1);
+        subsectionId = getIntent().getIntExtra("SUBSECTIONID", -1);
         // If locationId is not available in the intent, get it from shared preferences
         if (locationId == -1) {
             locationId = sharedPreferences.getInt("LOCATIONID", -1);
         }
+        if (sectionId == -1) {
+            sectionId = sharedPreferences.getInt("SECTIONID", -1);
+        }
+        if (subsectionId == -1) {
+            subsectionId = sharedPreferences.getInt("SUBSECTIONID", -1);
+        }
+
+        if(origin != null && origin.equals("BarcodeScannerActivity")){
+            locationId = getIntent().getIntExtra("LOCATIONID", -1);
+            sectionId = getIntent().getIntExtra("SECTIONID", -1);
+            subsectionId = getIntent().getIntExtra("SUBSECTIONID", -1);
+        }
 
         Log.d("LocationId: ", String.valueOf(locationId));
+        Log.d("sectionId: ", String.valueOf(sectionId));
+        Log.d("subsectionId: ", String.valueOf(subsectionId));
+
+        // Initialize the RecyclerView and set an empty adapter
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_location_items);
+        recyclerView.setLayoutManager(new LinearLayoutManager(LocationItemsActivity.this));
+        ItemAdapter adapter = new ItemAdapter(new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+
         // Fetch the items for this location/section/subsection
         // This will depend on how your API is set up
         ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);;
@@ -50,19 +75,44 @@ public class LocationItemsActivity extends AppCompatActivity {
                 Log.d("BarcodeScannerActivity", "Response code for item search: " + response.code());
                 if (response.isSuccessful()) {
                     List<Item> items = response.body();
-                    List<Item> filteredItems = items.stream()
-                            .filter(item -> (locationId == item.getLocationId()))
-                            .collect(Collectors.toList());
-
+                    List<Item> filteredItems = new ArrayList<>();
+                    if (locationId != -1) {
+                        filteredItems = items.stream().filter(item -> (locationId == item.getLocationId())).collect(Collectors.toList());
+                    } else if (sectionId != -1) {
+                        filteredItems = items.stream().filter(item -> (sectionId == item.getSectionId())).collect(Collectors.toList());
+                    } else if (subsectionId != -1) {
+                        filteredItems = items.stream().filter(item -> (subsectionId == item.getSubsectionId())).collect(Collectors.toList());
+                    }
 
                     Log.d("Items Found: ", items.toString());
                     Log.d("Filtered Items: " , filteredItems.toString());
+
                     // Display the items in the RecyclerView
-                    RecyclerView recyclerView = findViewById(R.id.recycler_view_location_items);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(LocationItemsActivity.this));
                     ItemAdapter adapter = new ItemAdapter(filteredItems);
                     recyclerView.setAdapter(adapter);
 
+/*                    LocationService locationService = ApiClient.getRetrofit().create(LocationService.class);
+                    Call<Location> locationCall = locationService.getLocationById(locationId);
+                    locationCall.enqueue(new Callback<Location>() {
+                        @Override
+                        public void onResponse(Call<Location> call, Response<Location> response) {
+                            if (response.isSuccessful()) {
+                                Location location = response.body();
+                                String locationName = location.getName();
+
+                                // Set the title of the activity to the location name
+                                setTitle(locationName);
+                            } else {
+                                Log.d("LocationItemsActivity", "Location not found for id: " + locationId);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Location> call, Throwable t) {
+                            Log.e("LocationItemsActivity", "Error fetching location: " + t.getMessage());
+                        }
+                    });
+*/
                     // Set an item click listener on the adapter
                     adapter.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
                         @Override
@@ -93,6 +143,8 @@ public class LocationItemsActivity extends AppCompatActivity {
         // Save the locationId in shared preferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("LOCATIONID", locationId);
+        editor.putInt("SECTIONID", sectionId);
+        editor.putInt("SUBSECTIONID", subsectionId);
         editor.apply();
     }
 }
