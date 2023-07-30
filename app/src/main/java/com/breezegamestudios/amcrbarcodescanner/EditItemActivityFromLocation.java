@@ -52,7 +52,7 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
         // Initialize other views for the remaining fields
 
         // Get the barcode from the Intent extras
-        String barcode = getIntent().getStringExtra("ID");
+        String barcode = getIntent().getStringExtra("BARCODE");
 
         // Make the API call to get the item data by barcode
         ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);
