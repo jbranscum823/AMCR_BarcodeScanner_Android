@@ -40,6 +40,7 @@ public class LocationItemsActivity extends AppCompatActivity {
         locationId = getIntent().getIntExtra("LOCATIONID", -1);
         sectionId = getIntent().getIntExtra("SECTIONID", -1);
         subsectionId = getIntent().getIntExtra("SUBSECTIONID", -1);
+
         // If locationId is not available in the intent, get it from shared preferences
         if (locationId == -1) {
             locationId = sharedPreferences.getInt("LOCATIONID", -1);
@@ -61,7 +62,7 @@ public class LocationItemsActivity extends AppCompatActivity {
         Log.d("sectionId: ", String.valueOf(sectionId));
         Log.d("subsectionId: ", String.valueOf(subsectionId));
 
-        // Initialize the RecyclerView and set an empty adapter
+            // Initialize the RecyclerView and set an empty adapter
         RecyclerView recyclerView = findViewById(R.id.recycler_view_location_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(LocationItemsActivity.this));
         adapter = new ItemAdapter(new ArrayList<>());
@@ -99,14 +100,18 @@ public class LocationItemsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<Item> items = response.body();
                     List<Item> filteredItems = new ArrayList<>();
-                    if (locationId != -1) {
-                        filteredItems = items.stream().filter(item -> (locationId == item.getLocationId())).collect(Collectors.toList());
-                    } else if (sectionId != -1) {
-                        filteredItems = items.stream().filter(item -> (sectionId == item.getSectionId())).collect(Collectors.toList());
-                    } else if (subsectionId != -1) {
-                        filteredItems = items.stream().filter(item -> (subsectionId == item.getSubsectionId())).collect(Collectors.toList());
+                    if(origin != null && origin.equals("MainActivity")){
+                        // If origin is MainActivity, add all items to filteredItems
+                        filteredItems.addAll(items);
+                    } else {
+                        if (locationId != -1) {
+                            filteredItems = items.stream().filter(item -> (locationId == item.getLocationId())).collect(Collectors.toList());
+                        } else if (sectionId != -1) {
+                            filteredItems = items.stream().filter(item -> (sectionId == item.getSectionId())).collect(Collectors.toList());
+                        } else if (subsectionId != -1) {
+                            filteredItems = items.stream().filter(item -> (subsectionId == item.getSubsectionId())).collect(Collectors.toList());
+                        }
                     }
-
                     Log.d("Items Found: ", items.toString());
                     Log.d("Filtered Items: " , filteredItems.toString());
 
