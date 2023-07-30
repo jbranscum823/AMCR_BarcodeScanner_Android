@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start ItemLookupActivity
-                Intent intent = new Intent(MainActivity.this, LocationItemsActivity.class);
-                intent.putExtra("ORIGIN", "MainActivity"); // Add this line
+                Intent intent = new Intent(MainActivity.this, ItemLookupActivity.class);
                 startActivity(intent);
             }
         });

@@ -35,7 +35,7 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".BarcodeScannerActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".EditItemActivity"
@@ -52,6 +52,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BarcodeScannerActivity" />
+        </activity>
+        <activity
+            android:name=".ItemLookupActivity"
+            android:label="Items in Location"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".EditItemActivityFromLocation"
