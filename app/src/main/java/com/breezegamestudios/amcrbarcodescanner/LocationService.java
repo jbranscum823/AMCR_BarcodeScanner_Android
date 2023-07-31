@@ -16,13 +16,13 @@ public interface LocationService {
     @GET("Section/ByLocationId/{locationId}")
     Call<List<Section>> getSectionsByLocationId(@Path("locationId") int locationId);
 
-    @GET("Section/{id}")
+    @GET("Location/Section/{id}")
     Call<Section> getSectionById(@Path("id") int id);
 
-    @GET("Subsection/BySectionId/{sectionId}")
+    @GET("Location/Subsection/BySectionId/{sectionId}")
     Call<List<Subsection>> getSubsectionsBySectionId(@Path("sectionId") int sectionId);
 
-    @GET("Subsection/{id}")
+    @GET("Location/Subsection/{id}")
     Call<Subsection> getSubsectionById(@Path("id") int id);
 
     @GET("Location/Location/ByBarcode/{barcode}")

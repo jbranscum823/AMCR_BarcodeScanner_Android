@@ -55,7 +55,7 @@
         </activity>
         <activity
             android:name=".ItemLookupActivity"
-            android:label="Items in Location"
+            android:label="All Items"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

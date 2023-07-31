@@ -62,7 +62,7 @@ public class LocationItemsActivity extends AppCompatActivity {
         Log.d("sectionId: ", String.valueOf(sectionId));
         Log.d("subsectionId: ", String.valueOf(subsectionId));
 
-            // Initialize the RecyclerView and set an empty adapter
+        // Initialize the RecyclerView and set an empty adapter
         RecyclerView recyclerView = findViewById(R.id.recycler_view_location_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(LocationItemsActivity.this));
         adapter = new ItemAdapter(new ArrayList<>());
@@ -87,10 +87,13 @@ public class LocationItemsActivity extends AppCompatActivity {
 
         });
 
-
         // Fetch the items for this location/section/subsection
         // This will depend on how your API is set up
-        ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);;
+        ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);
+        LocationService locationService = ApiClient.getRetrofit().create(LocationService.class);
+        LocationService sectionService = ApiClient.getRetrofit().create(LocationService.class); // Assuming you have this
+        LocationService subsectionService = ApiClient.getRetrofit().create(LocationService.class); // Assuming you have this
+
         // Step 1: Search for Item by Barcode
         Call<List<Item>> itemCall = itemService.getAllItems();
         itemCall.enqueue(new Callback<List<Item>>() {
@@ -119,28 +122,73 @@ public class LocationItemsActivity extends AppCompatActivity {
                     adapter.setItems(filteredItems);
                     adapter.notifyDataSetChanged();
 
-/*                    LocationService locationService = ApiClient.getRetrofit().create(LocationService.class);
-                    Call<Location> locationCall = locationService.getLocationById(locationId);
-                    locationCall.enqueue(new Callback<Location>() {
-                        @Override
-                        public void onResponse(Call<Location> call, Response<Location> response) {
-                            if (response.isSuccessful()) {
-                                Location location = response.body();
-                                String locationName = location.getName();
+                    if (locationId != -1) {
+                        Call<Location> locationCall = locationService.getLocationById(locationId);
+                        locationCall.enqueue(new Callback<Location>() {
+                            @Override
+                            public void onResponse(Call<Location> call, Response<Location> response) {
+                                if (response.isSuccessful()) {
+                                    Location location = response.body();
+                                    String locationName = location.getName();
 
-                                // Set the title of the activity to the location name
-                                setTitle(locationName);
-                            } else {
-                                Log.d("LocationItemsActivity", "Location not found for id: " + locationId);
+                                    // Set the title of the activity to the location name
+                                    setTitle("Location: " + locationName);
+                                } else {
+                                    Log.d("LocationItemsActivity", "Location not found for id: " + locationId);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<Location> call, Throwable t) {
-                            Log.e("LocationItemsActivity", "Error fetching location: " + t.getMessage());
-                        }
-                    });
-*/
+                            @Override
+                            public void onFailure(Call<Location> call, Throwable t) {
+                                Log.e("LocationItemsActivity", "Error fetching location: " + t.getMessage());
+                            }
+                        });
+                    }
+                    if (sectionId != -1) {
+                        Call<Section> sectionCall = sectionService.getSectionById(sectionId); // Assuming you have this
+                        sectionCall.enqueue(new Callback<Section>() {
+                            @Override
+                            public void onResponse(Call<Section> call, Response<Section> response) {
+                                if (response.isSuccessful()) {
+                                    Section section = response.body();
+                                    String sectionName = section.getName();
+
+                                    // Set the title of the activity to the section name
+                                    setTitle("Section: " + sectionName);
+                                } else {
+                                    Log.d("LocationItemsActivity", "Section not found for id: " + sectionId);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Section> call, Throwable t) {
+                                Log.e("LocationItemsActivity", "Error fetching section: " + t.getMessage());
+                            }
+                        });
+                    }
+                    if (subsectionId != -1) {
+                        Call<Subsection> subsectionCall = subsectionService.getSubsectionById(subsectionId); // Assuming you have this
+                        subsectionCall.enqueue(new Callback<Subsection>() {
+                            @Override
+                            public void onResponse(Call<Subsection> call, Response<Subsection> subsectionResponse) {
+                                if (subsectionResponse.isSuccessful()) {
+                                    Subsection subsection = subsectionResponse.body();
+                                    String subsectionName = subsection.getName();
+
+                                    // Set the title of the activity to the subsection name
+                                    setTitle("Subsection: " + subsectionName);
+                                } else {
+                                    Log.d("LocationItemsActivity", "Subsection not found for id: " + subsectionId);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Subsection> call, Throwable t) {
+                                Log.e("LocationItemsActivity", "Error fetching subsection: " + t.getMessage());
+                            }
+                        });
+                    }
+
                     // Set an item click listener on the adapter
                     adapter.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
                         @Override

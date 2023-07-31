@@ -172,7 +172,7 @@ public class EditItemActivity extends AppCompatActivity {
                                     if (location != null) {
                                         // Set the Location name in the TextView
                                         //textViewLocation.setText("Location: " + location.getName());
-                                        Log.d("Location Name: ",location.toString());
+                                        Log.d("Location Data: ",location.toString());
                                         // Fetch Section data based on the retrieved Location's sectionId
 
                                         // Iterate through the Sections to find the one with the matching sectionId
