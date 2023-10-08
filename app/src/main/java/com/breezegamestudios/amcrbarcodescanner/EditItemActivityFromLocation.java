@@ -23,9 +23,9 @@ import retrofit2.Response;
 public class EditItemActivityFromLocation extends AppCompatActivity {
 
     //location variables from item
-    private int locationId;
-    private int sectionId;
-    private int subsectionId;
+    private Integer locationId;
+    private Integer sectionId;
+    private Integer subsectionId;
     String sectionName = null;
     String subsectionName = null;
 
@@ -189,6 +189,13 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
                                     ArrayAdapter<Location> locationAdapter = new ArrayAdapter<>(EditItemActivityFromLocation.this, android.R.layout.simple_spinner_item, locations); // Corrected here
                                     spinnerLocation.setAdapter(locationAdapter);
 
+                                    int locationPosition = 0; // default to first position if not found or sectionId is null
+                                    if (locationId != null) {
+                                        locationPosition = getLocationPosition(locations, locationId);
+                                    }
+                                    spinnerLocation.setSelection(locationPosition);
+
+
                                     spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
                                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -208,6 +215,13 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
                                 ArrayAdapter<Section> sectionAdapter = new ArrayAdapter<>(EditItemActivityFromLocation.this, android.R.layout.simple_spinner_item, sections); // Corrected here
                                 spinnerSection.setAdapter(sectionAdapter);
 
+                                int sectionPosition = 0; // default to first position if not found or sectionId is null
+                                if (sectionId != null) {
+                                    sectionPosition = getSectionPosition(sections, sectionId);
+                                }
+
+                                spinnerSection.setSelection(sectionPosition);
+                                spinnerSubsection.setAdapter(null); // Clear the spinner
                                 spinnerSection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     @Override
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -223,8 +237,19 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
                             }
                             private void updateSubsectionsSpinner(Section selectedSection) {
                                 List<Subsection> subsections = selectedSection.getSubsections();
+                                if (subsections == null || subsections.isEmpty()) {
+                                    spinnerSubsection.setAdapter(null); // Clear the spinner
+                                    return; // Exit the method early
+                                }
                                 ArrayAdapter<Subsection> subsectionAdapter = new ArrayAdapter<>(EditItemActivityFromLocation.this, android.R.layout.simple_spinner_item, subsections); // Corrected here
                                 spinnerSubsection.setAdapter(subsectionAdapter);
+                                int subsectionPosition = 0; // default to first position if not found or sectionId is null
+                                if (subsectionId != null) {
+                                    subsectionPosition = getSubsectionPosition(subsections, subsectionId);
+                                }
+
+                                spinnerSubsection.setSelection(subsectionPosition);
+
                             }
                             @Override
                             public void onFailure(Call<List<Location>> call, Throwable t) {
@@ -241,6 +266,35 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
             }
         });
     }
+
+    private int getLocationPosition(List<Location> locations, int locationId) {
+        for (int i = 0; i < locations.size(); i++) {
+            if (locations.get(i).getId() == locationId) {
+                return i;
+            }
+        }
+        return 0; // default to first position if not found
+    }
+
+    private int getSectionPosition(List<Section> sections, int sectionId) {
+        for (int i = 0; i < sections.size(); i++) {
+            if (sections.get(i).getId() == sectionId) {
+                return i;
+            }
+        }
+        return 0; // default to first position if not found
+    }
+
+    private int getSubsectionPosition(List<Subsection> subsections, int subsectionId) {
+        for (int i = 0; i < subsections.size(); i++) {
+            if (subsections.get(i).getId() == subsectionId) {
+                return i;
+            }
+        }
+        return 0; // default to first position if not found
+    }
+
+
     private void updateItem() {
         Log.d("Button Works","YES!");
         String updatedName = textViewRepairOrderNumberValue.getText().toString();
@@ -253,9 +307,26 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
         Section selectedSection = (Section) spinnerSection.getSelectedItem();
         Subsection selectedSubsection = (Subsection) spinnerSubsection.getSelectedItem();
 
-        originalItem.setLocationId(selectedLocation.getId());
-        originalItem.setSectionId(selectedSection.getId());
-        originalItem.setSubsectionId(selectedSubsection.getId());
+        if(selectedLocation.getId() != null) {
+            originalItem.setLocationId(selectedLocation.getId());
+            Log.d("New Location ID:","" + selectedLocation.getId());
+        }else {
+            originalItem.setLocationId(null);
+        }
+
+        if (selectedSection != null) {
+            originalItem.setSectionId(selectedSection.getId());
+        } else {
+            originalItem.setSectionId(null);
+        }
+
+
+        if (selectedSubsection != null) {
+            originalItem.setSubsectionId(selectedSubsection.getId());
+        } else {
+            originalItem.setSubsectionId(null);
+        }
+
 
         // Make a PUT request to update the item in the database
         ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);

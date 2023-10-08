@@ -11,7 +11,7 @@ public interface ItemService {
     Call<List<Item>> getAllItems();
 
     @GET("Item/{id}")
-    Call<Item> getItemById(@Path("id") int id);
+    Call<Item> getItemById(@Path("id") Integer id);
 
     @GET("Item/ByBarcode/{barcode}")
     Call<Item> getItemByBarcode(@Path("barcode") String barcode);
@@ -20,9 +20,9 @@ public interface ItemService {
     Call<Void> addItem(@Body Item item);
 
     @PUT("Item/{id}")
-    Call<ResponseBody> updateItem(@Path("id") int id, @Body Item item);
+    Call<ResponseBody> updateItem(@Path("id") Integer id, @Body Item item);
 
     @DELETE("Item/{id}")
-    Call<Void> deleteItem(@Path("id") int id);
+    Call<Void> deleteItem(@Path("id") Integer id);
 }
 

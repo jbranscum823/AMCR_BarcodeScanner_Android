@@ -9,9 +9,9 @@ public class Item {
     private String dueDate;
     private String receiveDate;
     private String shippingDate;
-    private int locationId;
-    private int sectionId;
-    private int subsectionId;
+    private Integer locationId;
+    private Integer sectionId;
+    private Integer subsectionId;
     private String jobHistory;
     private String partNumber;
     private String serialNumber;
@@ -85,7 +85,7 @@ public class Item {
         this.shippingDate = shippingDate;
     }
 
-    public int getLocationId() {
+    public Integer getLocationId() {
         return locationId;
     }
 
@@ -93,15 +93,13 @@ public class Item {
         this.locationId = locationId;
     }
 
-    public int getSectionId() {
+    public Integer getSectionId() {
         return sectionId;
     }
 
-    public void setSectionId(Integer sectionId) {
-        this.sectionId = sectionId;
-    }
+    public void setSectionId(Integer sectionId) {this.sectionId = sectionId;}
 
-    public int getSubsectionId() {
+    public Integer getSubsectionId() {
         return subsectionId;
     }
 

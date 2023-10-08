@@ -11,19 +11,19 @@ public interface LocationService {
     Call<List<Location>> getAllLocations();
 
     @GET("Location/{id}")
-    Call<Location> getLocationById(@Path("id") int id);
+    Call<Location> getLocationById(@Path("id") Integer id);
 
     @GET("Section/ByLocationId/{locationId}")
-    Call<List<Section>> getSectionsByLocationId(@Path("locationId") int locationId);
+    Call<List<Section>> getSectionsByLocationId(@Path("locationId") Integer locationId);
 
     @GET("Location/Section/{id}")
-    Call<Section> getSectionById(@Path("id") int id);
+    Call<Section> getSectionById(@Path("id") Integer id);
 
     @GET("Location/Subsection/BySectionId/{sectionId}")
-    Call<List<Subsection>> getSubsectionsBySectionId(@Path("sectionId") int sectionId);
+    Call<List<Subsection>> getSubsectionsBySectionId(@Path("sectionId") Integer sectionId);
 
     @GET("Location/Subsection/{id}")
-    Call<Subsection> getSubsectionById(@Path("id") int id);
+    Call<Subsection> getSubsectionById(@Path("id") Integer id);
 
     @GET("Location/Location/ByBarcode/{barcode}")
     Call<Location> getLocationByBarcode(@Path("barcode") String barcode);
