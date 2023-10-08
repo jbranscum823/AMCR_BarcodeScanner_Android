@@ -30,13 +30,13 @@
         android:text="Item Look-Up"
         android:layout_marginTop="16dp" />
 
-    <Button
+<!--    <Button
         android:id="@+id/buttonInspection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Inspection"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp" />-->
 
 </LinearLayout>
 

@@ -103,7 +103,7 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <TextView
+        <EditText
             android:id="@+id/textViewRepairOrderNumberValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -192,10 +192,10 @@
 
         <!-- Save Button -->
         <Button
-            android:id="@+id/buttonSave"
+            android:id="@+id/buttonSaveItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Changes"/>
+            android:text="Save Changes" />
     </LinearLayout>
 </ScrollView>
 

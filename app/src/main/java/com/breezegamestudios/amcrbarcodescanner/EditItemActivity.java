@@ -2,10 +2,17 @@ package com.breezegamestudios.amcrbarcodescanner;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,17 +26,20 @@ public class EditItemActivity extends AppCompatActivity {
     String sectionName = null;
     String subsectionName = null;
 
+    private Item originalItem;
+
     private TextView textViewBarcodeValue;
     private TextView textViewNameValue;
     private TextView textViewDescriptionValue;
     private TextView textViewPartNumberValue;
     private TextView textViewSerialNumberValue;
-    private TextView textViewRepairOrderNumberValue;
+    private EditText textViewRepairOrderNumberValue;
     private TextView textViewLocationValue;
     private TextView textViewSectionValue;
     private TextView textViewSubsectionValue;
     private TextView textViewCustomerValue;
     private TextView textViewParentItemValue;
+
     // Add other views for the remaining fields
 
     @Override
@@ -51,6 +61,17 @@ public class EditItemActivity extends AppCompatActivity {
         textViewParentItemValue = findViewById(R.id.textViewParentItemValue);
         // Initialize other views for the remaining fields
 
+        // Initialize Update Button
+        Button buttonSaveItem = findViewById(R.id.buttonSaveItem);
+        buttonSaveItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Log.d("Click Register","Yes");
+            updateItem();
+
+            }
+        });
+
         // Get the barcode from the Intent extras
         String barcode = getIntent().getStringExtra("BARCODE");
 
@@ -63,6 +84,7 @@ public class EditItemActivity extends AppCompatActivity {
                 Log.d("Item Call: ",itemCall.toString());
                 if (response.isSuccessful()) {
                     Item item = response.body();
+                    originalItem = item;
                     if (item != null) {
 
                         //set location variables from item data
@@ -242,5 +264,43 @@ public class EditItemActivity extends AppCompatActivity {
                 // Handle API call failure here (e.g., show an error message)
             }
         });
+    }
+
+    private void updateItem() {
+        Log.d("Button Works","YES!");
+        String updatedName = textViewRepairOrderNumberValue.getText().toString();
+        Log.d("Update Request", "Updating item with repairOrderNumberValue: " + updatedName);
+        // Create an Item object with the updated data
+        //Item updatedItem = new Item();
+        originalItem.setRepairOrderNumber(updatedName);
+        // ... set other updated fields ...
+
+        // Make a PUT request to update the item in the database
+        ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);
+        Call<ResponseBody> updateCall = itemService.updateItem(originalItem.getId(), originalItem); // Initialize updateCall here
+        updateCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Response", "Success");
+                } else {
+                    Log.d("Response", "Fail");
+                    // Log the response code and error body for more details
+                    Log.d("Response Code", String.valueOf(response.code()));
+                    try {
+                        Log.d("Error Body", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("API Call", "Failure");
+                Log.d("Error", t.getMessage());
+            }
+        });
+
     }
 }

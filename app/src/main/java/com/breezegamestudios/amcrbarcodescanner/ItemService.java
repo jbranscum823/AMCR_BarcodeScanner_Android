@@ -2,6 +2,7 @@ package com.breezegamestudios.amcrbarcodescanner;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -19,7 +20,7 @@ public interface ItemService {
     Call<Void> addItem(@Body Item item);
 
     @PUT("Item/{id}")
-    Call<Item> updateItem(@Path("id") int id, @Body Item item);
+    Call<ResponseBody> updateItem(@Path("id") int id, @Body Item item);
 
     @DELETE("Item/{id}")
     Call<Void> deleteItem(@Path("id") int id);
