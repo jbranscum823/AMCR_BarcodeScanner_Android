@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +35,9 @@ public class EditItemActivity extends AppCompatActivity {
     private TextView textViewPartNumberValue;
     private TextView textViewSerialNumberValue;
     private EditText textViewRepairOrderNumberValue;
-    private TextView textViewLocationValue;
-    private TextView textViewSectionValue;
-    private TextView textViewSubsectionValue;
+    private Spinner spinnerLocation;
+    private Spinner spinnerSection;
+    private Spinner spinnerSubsection;
     private TextView textViewCustomerValue;
     private TextView textViewParentItemValue;
 
@@ -54,9 +55,9 @@ public class EditItemActivity extends AppCompatActivity {
         textViewPartNumberValue = findViewById(R.id.textViewPartNumberValue);
         textViewSerialNumberValue = findViewById(R.id.textViewSerialNumberValue);
         textViewRepairOrderNumberValue = findViewById(R.id.textViewRepairOrderNumberValue);
-        textViewLocationValue = findViewById(R.id.textViewLocationValue);
-        textViewSectionValue = findViewById(R.id.textViewSectionValue);
-        textViewSubsectionValue = findViewById(R.id.textViewSubsectionValue);
+        spinnerLocation = findViewById(R.id.spinnerLocation);
+        spinnerSection = findViewById(R.id.spinnerSection);
+        spinnerSubsection = findViewById(R.id.spinnerSubsection);
         textViewCustomerValue = findViewById(R.id.textViewCustomerValue);
         textViewParentItemValue = findViewById(R.id.textViewParentItemValue);
         // Initialize other views for the remaining fields
@@ -221,9 +222,9 @@ public class EditItemActivity extends AppCompatActivity {
                                             }
                                         }
 
-                                        textViewLocationValue.setText(location.getName());
+/*                                        textViewLocationValue.setText(location.getName());
                                         textViewSectionValue.setText(sectionName);
-                                        textViewSubsectionValue.setText(subsectionName);
+                                        textViewSubsectionValue.setText(subsectionName);*/
                                         // Now you have the Section name and Subsection name based on the item's sectionId and subsectionId
                                         if (sectionName != null && subsectionName != null) {
                                             Log.d("Section Name: ", sectionName);

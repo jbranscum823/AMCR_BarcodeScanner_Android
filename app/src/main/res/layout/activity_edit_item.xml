@@ -142,7 +142,7 @@
             android:text=""
             android:textSize="16sp"/>
 
-        <!-- Location (Displayed as "Location") -->
+        <!-- Location (Spinner) -->
         <TextView
             android:id="@+id/textViewLocation"
             android:layout_width="match_parent"
@@ -151,14 +151,12 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <TextView
-            android:id="@+id/textViewLocationValue"
+        <Spinner
+            android:id="@+id/spinnerLocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"/>
+            android:layout_height="wrap_content"/>
 
-        <!-- Section (Displayed as "Section") -->
+        <!-- Section (Spinner) -->
         <TextView
             android:id="@+id/textViewSection"
             android:layout_width="match_parent"
@@ -167,14 +165,12 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <TextView
-            android:id="@+id/textViewSectionValue"
+        <Spinner
+            android:id="@+id/spinnerSection"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"/>
+            android:layout_height="wrap_content"/>
 
-        <!-- Subsection (Displayed as "Subsection") -->
+        <!-- Subsection (Spinner) -->
         <TextView
             android:id="@+id/textViewSubsection"
             android:layout_width="match_parent"
@@ -183,12 +179,11 @@
             android:textStyle="bold"
             android:textSize="18sp"/>
 
-        <TextView
-            android:id="@+id/textViewSubsectionValue"
+        <Spinner
+            android:id="@+id/spinnerSubsection"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"/>
+            android:layout_height="wrap_content"/>
+
 
         <!-- Save Button -->
         <Button

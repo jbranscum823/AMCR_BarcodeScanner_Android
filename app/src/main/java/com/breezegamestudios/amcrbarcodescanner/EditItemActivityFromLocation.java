@@ -3,13 +3,17 @@ package com.breezegamestudios.amcrbarcodescanner;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -33,9 +37,9 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
     private TextView textViewPartNumberValue;
     private TextView textViewSerialNumberValue;
     private EditText textViewRepairOrderNumberValue;
-    private TextView textViewLocationValue;
-    private TextView textViewSectionValue;
-    private TextView textViewSubsectionValue;
+    private Spinner spinnerLocation;
+    private Spinner spinnerSection;
+    private Spinner spinnerSubsection;
     private TextView textViewCustomerValue;
     private TextView textViewParentItemValue;
     // Add other views for the remaining fields
@@ -52,9 +56,9 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
         textViewPartNumberValue = findViewById(R.id.textViewPartNumberValue);
         textViewSerialNumberValue = findViewById(R.id.textViewSerialNumberValue);
         textViewRepairOrderNumberValue = findViewById(R.id.textViewRepairOrderNumberValue);
-        textViewLocationValue = findViewById(R.id.textViewLocationValue);
-        textViewSectionValue = findViewById(R.id.textViewSectionValue);
-        textViewSubsectionValue = findViewById(R.id.textViewSubsectionValue);
+        spinnerLocation = findViewById(R.id.spinnerLocation);
+        spinnerSection = findViewById(R.id.spinnerSection);
+        spinnerSubsection = findViewById(R.id.spinnerSubsection);
         textViewCustomerValue = findViewById(R.id.textViewCustomerValue);
         textViewParentItemValue = findViewById(R.id.textViewParentItemValue);
         // Initialize other views for the remaining fields
@@ -175,85 +179,59 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
                             });
                         }
 
-                        //Location call to get location information
-                        // Fetch Location data from API based on the barcode
                         LocationService locationService = ApiClient.getRetrofit().create(LocationService.class);
-                        Call<Location> locationCall = locationService.getLocationById(locationId);
-                        locationCall.enqueue(new Callback<Location>() {
+                        Call<List<Location>> allLocationsCall = locationService.getAllLocations();
+                        allLocationsCall.enqueue(new Callback<List<Location>>() {
                             @Override
-                            public void onResponse(Call<Location> call, Response<Location> locationResponse) {
-                                int responseCode = locationResponse.code();
-                                Log.d("Location Response Code: ", String.valueOf(responseCode));
-                                String locationApiUrl = ApiClient.getRetrofit().baseUrl() + "Location/" + locationId;
-                                Log.d("Location API URL: ", locationCall.toString());
+                            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
+                                if (response.isSuccessful()) {
+                                    List<Location> locations = response.body();
+                                    ArrayAdapter<Location> locationAdapter = new ArrayAdapter<>(EditItemActivityFromLocation.this, android.R.layout.simple_spinner_item, locations); // Corrected here
+                                    spinnerLocation.setAdapter(locationAdapter);
 
-                                if (locationResponse.isSuccessful()) {
-                                    Location location = locationResponse.body();
-                                    if (location != null) {
-                                        // Set the Location name in the TextView
-                                        //textViewLocation.setText("Location: " + location.getName());
-                                        Log.d("Location Name: ",location.toString());
-                                        // Fetch Section data based on the retrieved Location's sectionId
-
-                                        // Iterate through the Sections to find the one with the matching sectionId
-                                        for (Section section : location.getSections()) {
-                                            if (section.getId() == sectionId) {
-                                                sectionName = section.getName();
-                                                break;
-                                            }
+                                    spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            Location selectedLocation = (Location) parent.getItemAtPosition(position);
+                                            updateSectionsSpinner(selectedLocation);
                                         }
 
-                                        // If the Section is found, find the Subsection with the matching subsectionId
-                                        if (sectionName != null) {
-                                            for (Section section : location.getSections()) {
-                                                if (section.getId() == sectionId) {
-                                                    // Iterate through the subsections to find the one with the matching subsectionId
-                                                    for (Subsection subsection : section.getSubsections()) {
-                                                        if (subsection.getId() == subsectionId) {
-                                                            subsectionName = subsection.getName();
-                                                            break;
-                                                        }
-                                                    }
-                                                    break;
-                                                }
-                                            }
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+                                            // Do nothing here
                                         }
-
-                                        textViewLocationValue.setText(location.getName());
-                                        textViewSectionValue.setText(sectionName);
-                                        textViewSubsectionValue.setText(subsectionName);
-                                        // Now you have the Section name and Subsection name based on the item's sectionId and subsectionId
-                                        if (sectionName != null && subsectionName != null) {
-                                            Log.d("Section Name: ", sectionName);
-                                            Log.d("Subsection Name: ", subsectionName);
-                                        } else {
-                                            Log.d("Section or Subsection not found.", "");
-                                        }
-
-                                    } else {
-                                        Log.d("Location: Not Found","");
-                                        Log.d("Section: Not Found","");
-                                        Log.d("Subsection: Not Found","");
-                                    }
-                                } else {
-                                    // Handle unsuccessful response for Location
-                                    //locationTextView.setText("Location: Error");
-                                    //sectionTextView.setText("Section: Error");
-                                    //subsectionTextView.setText("Subsection: Error");
+                                    });
                                 }
                             }
+                            private void updateSectionsSpinner(Location selectedLocation) {
+                                List<Section> sections = selectedLocation.getSections();
+                                ArrayAdapter<Section> sectionAdapter = new ArrayAdapter<>(EditItemActivityFromLocation.this, android.R.layout.simple_spinner_item, sections); // Corrected here
+                                spinnerSection.setAdapter(sectionAdapter);
 
+                                spinnerSection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        Section selectedSection = (Section) parent.getItemAtPosition(position);
+                                        updateSubsectionsSpinner(selectedSection);
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+                                        // Do nothing here
+                                    }
+                                });
+                            }
+                            private void updateSubsectionsSpinner(Section selectedSection) {
+                                List<Subsection> subsections = selectedSection.getSubsections();
+                                ArrayAdapter<Subsection> subsectionAdapter = new ArrayAdapter<>(EditItemActivityFromLocation.this, android.R.layout.simple_spinner_item, subsections); // Corrected here
+                                spinnerSubsection.setAdapter(subsectionAdapter);
+                            }
                             @Override
-                            public void onFailure(Call<Location> call, Throwable t) {
-                                // Handle failure to fetch Location data
-                                //locationTextView.setText("Location: Error");
-                                //sectionTextView.setText("Section: Error");
-                                //subsectionTextView.setText("Subsection: Error");
+                            public void onFailure(Call<List<Location>> call, Throwable t) {
+                                // Handle failure
                             }
                         });
                     }
-                } else {
-                    // Handle API call failure here (e.g., show an error message)
                 }
             }
 
@@ -271,6 +249,13 @@ public class EditItemActivityFromLocation extends AppCompatActivity {
         //Item updatedItem = new Item();
         originalItem.setRepairOrderNumber(updatedName);
         // ... set other updated fields ...
+        Location selectedLocation = (Location) spinnerLocation.getSelectedItem();
+        Section selectedSection = (Section) spinnerSection.getSelectedItem();
+        Subsection selectedSubsection = (Subsection) spinnerSubsection.getSelectedItem();
+
+        originalItem.setLocationId(selectedLocation.getId());
+        originalItem.setSectionId(selectedSection.getId());
+        originalItem.setSubsectionId(selectedSubsection.getId());
 
         // Make a PUT request to update the item in the database
         ItemService itemService = ApiClient.getRetrofit().create(ItemService.class);
