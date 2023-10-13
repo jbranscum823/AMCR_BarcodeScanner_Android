@@ -78,7 +78,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                     if (item != null) {
                         // Item found
                         Log.d("BarcodeScannerActivity", "Item by Barcode: " + item);
-                        Toast.makeText(BarcodeScannerActivity.this, "Item: " + item, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(BarcodeScannerActivity.this, "Item: " + item, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the item data here
                         Intent intent = new Intent(BarcodeScannerActivity.this, EditItemActivity.class);
                         // Pass any data you need to the EditItemActivity using extras (optional)
@@ -115,7 +115,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                     if (location != null) {
                         // Location found
                         Log.d("BarcodeScannerActivity", "Location by Barcode: " + location);
-                        Toast.makeText(BarcodeScannerActivity.this, "Location: " + location, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(BarcodeScannerActivity.this, "Location: " + location, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the location data here
 
                         Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
@@ -156,7 +156,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                     if (section != null) {
                         // Section found
                         Log.d("BarcodeScannerActivity", "Section by Barcode: " + section);
-                        Toast.makeText(BarcodeScannerActivity.this, "Section: " + section, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(BarcodeScannerActivity.this, "Section: " + section, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the section data here
 
                         Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
@@ -197,7 +197,8 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                     if (subsection != null) {
                         // Subsection found
                         Log.d("BarcodeScannerActivity", "Subsection by Barcode: " + subsection);
-                        Toast.makeText(BarcodeScannerActivity.this, "Subsection: " + subsection, Toast.LENGTH_SHORT).show();
+                        //
+                        // Toast.makeText(BarcodeScannerActivity.this, "Subsection: " + subsection, Toast.LENGTH_SHORT).show();
                         // You can update your UI or perform any other actions with the subsection data here
 
                         Intent intent = new Intent(BarcodeScannerActivity.this, LocationItemsActivity.class);
@@ -209,7 +210,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                     } else {
                         // No matching subsection found
                         Log.d("BarcodeScannerActivity", "No matching subsection found for barcode: " + barcode);
-                        Toast.makeText(BarcodeScannerActivity.this, "No Matching Barcode in Database", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(BarcodeScannerActivity.this, "No Matching Barcode in Database", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.d("BarcodeScannerActivity", "Subsection not found for barcode: " + barcode);// Step 4 failed

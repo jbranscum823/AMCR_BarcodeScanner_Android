@@ -3,7 +3,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://192.168.0.29:5003/api/"; // Replace with your API base URL api use 152 for amcrserver; 29 for home
+    private static final String BASE_URL = "http://192.168.0.168:5003/api/"; // Replace with your API base URL api use 168 for amcrserver; 29 for home
 
     private static Retrofit retrofit;
 
