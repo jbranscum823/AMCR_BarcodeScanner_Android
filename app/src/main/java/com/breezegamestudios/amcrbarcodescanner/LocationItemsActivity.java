@@ -22,9 +22,9 @@ import retrofit2.Response;
 
 public class LocationItemsActivity extends AppCompatActivity {
 
-    private int locationId;
-    private int sectionId;
-    private int subsectionId;
+    private Integer locationId;
+    private Integer sectionId;
+    private Integer subsectionId;
     private SharedPreferences sharedPreferences;
 
     private ItemAdapter adapter; // Declare adapter here
